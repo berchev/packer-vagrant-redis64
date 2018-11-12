@@ -1,12 +1,16 @@
 # redis64
 
 ## Description:
-Downloading the content of this repo, you will have all needed configuration files required to build a **redis64 box**
+Downloading the content of this repo, you will have all needed configuration files required to build a **redis64 box** and to test it with tool **Kitchen**
 
 ## Files:
 - `http/preseed.cfg` - file containing base configuration during the installation process
 - `scripts/provision.sh` - bash script which purpose is to configure the box environment
 - `template.json` - file which **Packer** use in order to create our box
+- `Gemfile` - Specify the the ruby version, and all gems needed for **Kitchen** test
+- `.kitchen.yml` - **Kitchen** configuration file
+- `test/integration/default/check_pkg.rb` - Script needed to **Kitchen** in order to test whether nginx is installed on your box.
+
 
 ## Requiered software:
 In order to build your box you need to have **Packer** tool installed.
@@ -75,8 +79,25 @@ It can be any other name!
 - Type: `vagrant halt` in order to poweroff the box
 - Type: `vagrant destroy` in order to destroy the created box
 
+### Prepare your environment for **kitchen**
+- Type: `sudo apt-get install rbenv ruby-dev ruby-bundler`
+- add to your ~/.bash_profile: 
+  ```
+  eval "$(rbenv init -)"
+  true
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  ```
+- do `. ~/.bash_profile` in order to apply the changes made in .bash_profile 
 
-## TODO:
-- Describe kitchen files into the `Files` section
-- Prepare your environment for **Kitchen** - explanation
-- **Kitchen** test of the redis64 box
+- Change to the directory with `Gemfile` and type: `bundle install` in order to install all needed gems for the test
+
+### Test your box with **kitchen** after creation:
+- Edit `.kitchen.yml` according to your needs.
+Note that if your output box file is `ubuntu-1604-vbox.box` and your box name added to vagrant is `redis64`, you do not need to change anything
+- Type: `bundle exec kitchen list` to list the environment
+- Type: `bundle exec kitchen converge` to build environment with kitchen
+- Type: `bundle exec kitchen verify` to test the created kitchen environment
+- Type: `bundle exec kitchen destroy` in order to destroy the created kitchen environment
+- Type: `bundle exec kitchen test` in order to do steps from 3 to 5 in one command
+
+## TODO
