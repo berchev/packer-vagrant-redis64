@@ -1,3 +1,5 @@
 ubuntu-1604-vbox.box
 Vagrantfile
 .vagrant/
+.kitchen/
+Gemfile.lock
