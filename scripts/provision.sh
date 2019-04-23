@@ -63,7 +63,11 @@ echo "Zeroing device to make space..."
 dd if=/dev/zero of=/EMPTY bs=1M
 rm -f /EMPTY
 
-# Install nginx 
-sudo apt-get update
-sudo apt-get install -y redis-server 
+# Install redis and vim
+apt-get update
+apt-get install -y vim
+apt-get install -y redis-server
 
+# Configure redis to listen on all IPs
+sed -i "s/^bind 127.0.0.1/# bind 127.0.0.1/" /etc/redis/redis.conf
+systemctl restart redis-server.service
