@@ -5,3 +5,5 @@ Vagrantfile
 Gemfile.lock
 .bundle/
 vendor/
+redis64-vbox.box
+redis64-vmware.box
